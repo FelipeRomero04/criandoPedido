@@ -61,8 +61,8 @@ public class RepoOrder {
 
     public void calc_total(int order_id ,List<Integer> id_items, List<Integer> quant) throws SQLException {
         String uptQuery = "UPDATE orders SET total_value = ? WHERE id = ?;";
-        double total = 0;
 
+        double total = 0;
         try(PreparedStatement stmtUpd = conn.prepareStatement(uptQuery)){
 
             for (int i = 0; i < id_items.size(); i++) {
