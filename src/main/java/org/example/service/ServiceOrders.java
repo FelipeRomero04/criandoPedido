@@ -16,15 +16,15 @@ public class ServiceOrders {
         this.repoOrder = new RepoOrder(conn);
     }
 
-    public void orderTransaction() throws SQLException {
+    public void orderTransaction(int client_id, List<Integer> id_products, List<Integer> list_quantity) throws SQLException {
         try {
             conn.setAutoCommit(false);
 
-            Order order = new Order(2, "2025-05-10 17:40:20", 0.0);
-
+            Order order = new Order(client_id);
             int order_id = repoOrder.saveOrder(order);
-            repoOrder.placingOrder(order_id, List.of(4, 5, 6), List.of(2, 3, 7));
-            // passar listas como parâmetros
+
+            repoOrder.placingOrder(order_id, id_products, list_quantity);
+            repoOrder.update_TotalValue(order_id, id_products, list_quantity);
 
             conn.commit();
         } catch (NullPointerException e) {

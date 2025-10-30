@@ -1,25 +1,37 @@
 package org.example.entitys;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
+
 public class Order {
     private Integer id;
     private Integer client_id;
-    private String date;
+    private LocalDateTime date;
     private Double total_value = 0.0;
 
-    public Order(Integer id, Integer client_id,String date, Double total_value) {
+    public Order(Integer id, Integer client_id, Double total_value) {
         this.id = id;
         this.client_id = client_id;
-        this.date = date;
+        this.date = LocalDateTime.now();
         this.total_value = total_value;
+
     }
 
-    public Order(Integer client_id, String date, Double total_value) {
+    public Order(Integer client_id, Double total_value) {
         this.client_id = client_id;
-        this.date = date;
         this.total_value = total_value;
+        this.date = LocalDateTime.now();
     }
 
-    public Order(){}
+    public Order(Integer client_id) {
+        this.client_id = client_id;
+        this.date = LocalDateTime.now();
+    }
+
+    public Order(){
+        this.date = LocalDateTime.now();
+    }
 
 
     public Integer getId() {
@@ -38,18 +50,17 @@ public class Order {
         this.client_id = client_id;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
     public Double getTotal_value() {
         return total_value;
     }
-
     public void setTotal_value(Double total_value) {
         this.total_value = total_value;
     }

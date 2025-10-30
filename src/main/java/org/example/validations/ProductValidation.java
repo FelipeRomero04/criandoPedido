@@ -13,7 +13,7 @@ public class ProductValidation {
     public static double priceProductValid(String price){
         try{
             if(price.isBlank()){
-                return -1;
+                return 0;
             }
             return Double.parseDouble(price);
         }catch (NumberFormatException e){
@@ -24,7 +24,7 @@ public class ProductValidation {
     public static int quantityProductValid(String quantity){
         try{
             if(quantity.isBlank()){
-                return -1;
+                return 0;
             }
             return Integer.parseInt(quantity);
         }catch (NumberFormatException e){

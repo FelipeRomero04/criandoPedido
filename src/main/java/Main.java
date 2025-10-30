@@ -1,15 +1,20 @@
 import org.example.service.ServiceOrders;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
+
 import static org.example.utils.connectionFactory.Connectivity.connectionDb;
 
 public class Main{
     public static void main(String[] args) throws SQLException {
-
         Connection conn = connectionDb();
+
         try{
+
             ServiceOrders servOrder = new ServiceOrders(conn);
-            servOrder.orderTransaction();
+            servOrder.orderTransaction(2, List.of(4,5,7), List.of(2, 3, 4));
+
+
         }catch(NullPointerException e){
             System.out.println(e.getMessage());
         }
