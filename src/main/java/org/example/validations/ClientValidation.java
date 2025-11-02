@@ -35,7 +35,7 @@ public class ClientValidation {
         }
         int rest = (sum * 10) % 11;
         System.out.println(rest);
-        int firstCod = (rest < 2) ? 0: rest;
+        int firstCod = (rest > 9) ? 0: rest;
 
         sum = 0;
         for (int i = 0; i < 10; i++) {
@@ -43,7 +43,7 @@ public class ClientValidation {
         }
         rest = (sum * 10) % 11;
         System.out.println(rest);
-        int secondCode = (rest < 2) ? 0 : rest;
+        int secondCode = (rest > 9) ? 0 : rest;
 
         if((cpf.charAt(9) - '0') == firstCod && (cpf.charAt(10) - '0') == secondCode ){
             return cpf;

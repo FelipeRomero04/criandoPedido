@@ -17,6 +17,7 @@ public class Client {
         this(null, name, email, cpf);
     }
 
+    public Client(String email) {this.email = email;}
     public Client(){}
 
     @Override

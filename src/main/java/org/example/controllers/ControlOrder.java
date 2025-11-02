@@ -42,7 +42,7 @@ public class ControlOrder {
 
         System.out.print("Selecione o cliente: ");
         int client_id = Integer.parseInt(input.nextLine().trim());
-        if(!repoClient.isExist(client_id)){
+        if(!repoClient.isExistById(client_id)){
             return;
         }
 
