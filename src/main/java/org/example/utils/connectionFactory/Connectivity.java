@@ -15,7 +15,7 @@ public class Connectivity {
         try{
             return DriverManager.getConnection(URL, USER, PASS);
         }catch (SQLException e){
-            throw new RuntimeException("Falha ao conectar-se com o banco de dados.");
+            throw new RuntimeException(e);
         }
 
     }

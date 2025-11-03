@@ -8,12 +8,15 @@ import java.util.List;
 import static org.example.utils.connectionFactory.Connectivity.connectionDb;
 
 public class Main{
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args){
         Connection conn = connectionDb();
         ControlClient controlClient = new ControlClient(conn);
         try{
-            Client client = controlClient.controlClientRegister();
-            System.out.println(client.getId());
+            controlClient.controlClientDelete();
+            System.out.println("User deletado");
+
+            //Agora fazer o mesmo com os produtos
+
 
 
 //            ServiceOrders servOrder = new ServiceOrders(conn);
@@ -22,6 +25,8 @@ public class Main{
 
         }catch(NullPointerException e){
             e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

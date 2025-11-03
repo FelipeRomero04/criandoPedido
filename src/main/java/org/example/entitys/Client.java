@@ -22,11 +22,12 @@ public class Client {
 
     @Override
     public String toString() {
-        return "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", cpf='" + cpf + '\'' +
-                '}';
+//        return id +"\t\t"+
+//                 name + "\t\t" +
+//                 email +
+//                "\t\t" + cpf;
+
+        return "ID: "+String.format("%-20d", id) + "Nome: "+String.format("%-20s", name) +"Email: " + String.format("%-20s", email) + "CPF: " + String.format("%-20s", cpf);
     }
 
     public Integer getId() {

@@ -22,6 +22,34 @@ public class ControlProduct {
         this.productDAO = new ProductDAO(conn);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public void productMenu() throws SQLException {
         while(true) {
             List<Product> productsTable = productDAO.selectProduct();
