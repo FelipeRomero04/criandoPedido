@@ -38,15 +38,18 @@ public class ControlClient {
     public void controlClientUpdate() throws SQLException{
         List<Client> clients = serviceClient.getListClients();
         int idForUpdated = viewClient.idClientChoose(clients);
-        Client clientChoose = serviceClient.getClientById(idForUpdated);
-        Client newClient = viewClient.clientUpdate(clientChoose);
-        serviceClient.clientUpdated(newClient);
+        Client clientUpdate = serviceClient.getClientById(idForUpdated);
+        clientUpdate = viewClient.clientUpdate(clientUpdate);
+        serviceClient.setClientUpdate(clientUpdate);
 
-    } //Tente refatorar
+    }
 
     public void controlClientDelete() throws SQLException{
         List<Client> clients = serviceClient.getListClients();
-        int idForDelete = viewClient.idClientChoose(clients);
+        int idForDelete =0 ;
+        if(clients.isEmpty()) {
+            idForDelete = viewClient.idClientChoose(clients);
+        }
         serviceClient.clientDeleted(idForDelete);
     }
 }

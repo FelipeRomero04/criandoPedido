@@ -35,7 +35,7 @@ public class ServiceClient {
         return repoClient.findById(id);
     }
 
-    public void clientUpdated(Client newClient) throws SQLException{
+    public void setClientUpdate(Client newClient) throws SQLException{
         repoClient.clientUpdate(newClient);
     }
 

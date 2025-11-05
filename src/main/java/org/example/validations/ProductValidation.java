@@ -2,7 +2,7 @@ package org.example.validations;
 
 public class ProductValidation {
 
-    public static String nameProductValid(String name){
+    public static String productValidName(String name){
         if (name.matches("^[0-9]{0,3}[\\p{L} ]+[0-9]{0,3}$") || name.isBlank()){
             return name;
         }
@@ -13,7 +13,7 @@ public class ProductValidation {
     public static double priceProductValid(String price){
         try{
             if(price.isBlank()){
-                return 0;
+                return -1;
             }
             return Double.parseDouble(price);
         }catch (NumberFormatException e){
@@ -21,12 +21,12 @@ public class ProductValidation {
         }
     }
 
-    public static int quantityProductValid(String quantity){
+    public static int stockProductValid(String stock){
         try{
-            if(quantity.isBlank()){
-                return 0;
+            if(stock.isBlank()){
+                return -1;
             }
-            return Integer.parseInt(quantity);
+            return Integer.parseInt(stock);
         }catch (NumberFormatException e){
             throw new NumberFormatException("O estoque informado é inválido. Reajuste e tente novamente;");
         }

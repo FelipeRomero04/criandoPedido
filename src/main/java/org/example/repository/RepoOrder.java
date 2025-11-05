@@ -1,6 +1,7 @@
 package org.example.repository;
 
 import org.example.entitys.Order;
+import org.example.entitys.Order_item;
 import org.example.entitys.Product;
 
 import java.sql.*;
@@ -8,13 +9,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static org.example.utils.dateUtils.Utils.productById;
+
 
 public class RepoOrder {
     private final Connection conn;
+    private final RepoProduct repoProduct;
 
     public RepoOrder(Connection conn) {
         this.conn = conn;
+        this.repoProduct = new RepoProduct(conn);
     }
 
     public int saveOrder(Order order) throws SQLException {
@@ -37,14 +40,14 @@ public class RepoOrder {
         return order_id;
     }
 
-    public void placingOrder(int order_id, List<Integer> id_products, List<Integer> quantities) throws SQLException {
+    public void placingOrder(Order_item orderItem) throws SQLException {
         String insertQuery = "INSERT INTO order_item(order_id, product_id, quantity) VALUES (?,?,?);";
 
         try (PreparedStatement stmtInsrt = conn.prepareStatement(insertQuery)) {
-            for (int i = 0; i < id_products.size(); i++) {
-                stmtInsrt.setInt(1, order_id);
-                stmtInsrt.setInt(2, id_products.get(i));
-                stmtInsrt.setDouble(3, quantities.get(i));
+            for (int i = 0; i < orderItem.getProducts_id().size(); i++) {
+                stmtInsrt.setInt(1, orderItem.getOrder_id());
+                stmtInsrt.setInt(2, orderItem.getProducts_id().get(i));
+                stmtInsrt.setDouble(3, orderItem.getQuantities().get(i));
 
                 stmtInsrt.addBatch(); //guarda em lotes
             }
@@ -56,19 +59,20 @@ public class RepoOrder {
         }
     }
 
-    public void update_TotalValue(int order_id , List<Integer> id_items, List<Integer> quant) throws SQLException {
+    public void update_TotalValue(Order_item orderItem) throws SQLException { //mudar o nome
         String uptQuery = "UPDATE orders SET total_value = ? WHERE id = ?;";
 
         double total = 0;
         try(PreparedStatement stmtUpd = conn.prepareStatement(uptQuery)){
 
-            for (int i = 0; i < id_items.size(); i++) {
-                Product product = productById(id_items.get(i));
-                total += product.getPrice() * quant.get(i);
+            for (int i = 0; i < orderItem.getProducts_id().size(); i++) {
+                Product product = repoProduct.findById(orderItem.getProducts_id().get(i));
+                total += product.getPrice() * orderItem.getQuantities().get(i);
+                repoProduct.decrementStock(product.getId(), orderItem.getQuantities().get(i));
             }
 
             stmtUpd.setDouble(1, total);
-            stmtUpd.setInt(2, order_id);
+            stmtUpd.setInt(2, orderItem.getOrder_id());
             stmtUpd.executeUpdate();
 
         }catch(SQLException e){
@@ -77,9 +81,9 @@ public class RepoOrder {
     }
 
     private Timestamp toTimeStamp(LocalDateTime date){
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss");
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
         return Timestamp.valueOf(date.format(format));
 
-    }
+    }//tirar isso daqui
 
 }

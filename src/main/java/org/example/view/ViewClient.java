@@ -38,10 +38,8 @@ public class ViewClient {
 
     }
 
-
     public Client clientUpdate(Client client){
         System.out.println("===== ATUALIZANDO DADOS DO CLIENTE =====");
-        //Se der enter(vazio) continua com mesmo valor
         System.out.print("Nome (atual: "+client.getName()+"): ");
         String name = clientNameValid(input.nextLine().trim());
         if(name.isBlank()){
@@ -53,30 +51,14 @@ public class ViewClient {
         if(email.isBlank()){
             email = client.getEmail();
         }
+
         System.out.print("CPF (atual: "+client.getCpf()+"): ");
         String cpf = cpfValid(input.nextLine().trim());
         if(cpf.isBlank()){
             cpf = client.getCpf();
         }
+
         return new Client(client.getId(), name, email, cpf);
 
     }
-
-//    public Product productData(){
-//
-//    }
-//
-//
-//
-//    public Product chooseProduct(){
-//
-//    }
 }
-
-/*
-    Metodo para cadatrar e sem retornar o produto
-
-    Metodo para escolher o produto
-
-    Criar uma classe Cart que herda produtos??
- */

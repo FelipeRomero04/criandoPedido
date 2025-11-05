@@ -1,27 +1,24 @@
 import org.example.controllers.ControlClient;
-import org.example.entitys.Client;
-import org.example.service.ServiceOrders;
+import org.example.controllers.ControlOrder;
+import org.example.controllers.ControlProduct;
+
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
-import static org.example.utils.connectionFactory.Connectivity.connectionDb;
+import static org.example.utils.Connectivity.connectionDb;
 
 public class Main{
     public static void main(String[] args){
         Connection conn = connectionDb();
         ControlClient controlClient = new ControlClient(conn);
-        try{
-            controlClient.controlClientDelete();
-            System.out.println("User deletado");
+        ControlProduct controlProduct = new ControlProduct(conn);
+        ControlOrder controlOrder = new ControlOrder(conn);
 
-            //Agora fazer o mesmo com os produtos
+        try {
 
+            controlOrder.startedTransaction();
+            System.out.println("Produto Deletado");
 
-
-//            ServiceOrders servOrder = new ServiceOrders(conn);
-//            servOrder.orderTransaction(2, List.of(4,5,7), List.of(2, 3, 4));
-// 20712750711
 
         }catch(NullPointerException e){
             e.printStackTrace();

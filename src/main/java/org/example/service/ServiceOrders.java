@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.entitys.Order;
+import org.example.entitys.Order_item;
 import org.example.repository.RepoOrder;
 
 import java.sql.*;
@@ -16,15 +17,17 @@ public class ServiceOrders {
         this.repoOrder = new RepoOrder(conn);
     }
 
-    public void orderTransaction(int client_id, List<Integer> id_products, List<Integer> list_quantity) throws SQLException {
+    public void orderTransaction(int client_id, Order_item orderItem) throws SQLException {
         try {
             conn.setAutoCommit(false);
 
             Order order = new Order(client_id);
             int order_id = repoOrder.saveOrder(order);
 
-            repoOrder.placingOrder(order_id, id_products, list_quantity);
-            repoOrder.update_TotalValue(order_id, id_products, list_quantity);
+            orderItem.setOrder_id(order_id);
+
+            repoOrder.placingOrder(orderItem);
+            repoOrder.update_TotalValue(orderItem);
 
             conn.commit();
         } catch (NullPointerException e) {
