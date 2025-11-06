@@ -7,9 +7,6 @@ import org.example.entitys.Product;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-
-
 
 public class RepoOrder {
     private final Connection conn;

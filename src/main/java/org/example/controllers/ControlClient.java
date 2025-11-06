@@ -36,20 +36,28 @@ public class ControlClient {
     }
 
     public void controlClientUpdate() throws SQLException{
-        List<Client> clients = serviceClient.getListClients();
-        int idForUpdated = viewClient.idClientChoose(clients);
-        Client clientUpdate = serviceClient.getClientById(idForUpdated);
-        clientUpdate = viewClient.clientUpdate(clientUpdate);
-        serviceClient.setClientUpdate(clientUpdate);
+        try{
+            List<Client> clients = serviceClient.getListClients();
+            int idForUpdated = viewClient.idClientChoose(clients);
+            Client clientUpdate = serviceClient.getClientById(idForUpdated);
+            clientUpdate = viewClient.clientUpdate(clientUpdate);
+            serviceClient.setClientUpdate(clientUpdate);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
 
     }
 
     public void controlClientDelete() throws SQLException{
-        List<Client> clients = serviceClient.getListClients();
-        int idForDelete =0 ;
-        if(clients.isEmpty()) {
-            idForDelete = viewClient.idClientChoose(clients);
+        try{
+            List<Client> clients = serviceClient.getListClients();
+            int idForDelete = 0;
+            if (clients.isEmpty()) {
+                idForDelete = viewClient.idClientChoose(clients);
+            }
+            serviceClient.clientDeleted(idForDelete);
+        }catch(SQLException e){
+            throw new RuntimeException(e);
         }
-        serviceClient.clientDeleted(idForDelete);
     }
 }
