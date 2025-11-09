@@ -31,22 +31,14 @@ public class ControlOrder {
         return viewClient.idClientChoose(clients);
     } //client_id -> orders
 
-    public Order_item assembleCart(){
+    public Order_item assembleCart(Client client){
         List<Product> products = serviceProduct.getListProducts();
-        return viewOrder.createCart(products); //2 lists order_item
+        return viewOrder.createCart(client,products); //2 lists order_item
     }
-
-
-    public void fullCart(Client client) {
-        List<Product> products = serviceProduct.getListProducts();
-        viewOrder.viewCart(client, products);
-
-    }
-
 
     public void startedTransaction(Client client){
         try{
-            Order_item order = assembleCart();
+            Order_item order = assembleCart(client);
             serviceOrders.orderTransaction(client.getId(), order);
         }catch (SQLException e){
             throw new RuntimeException(e);

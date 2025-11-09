@@ -12,7 +12,7 @@ public class ViewOrder {
     private final List<Integer> id_products = new ArrayList<>();
     private final List<Integer> quantities = new ArrayList<>();
 
-    public Order_item createCart(List<Product> products){
+    public Order_item createCart(Client client ,List<Product> products){
         id_products.clear();
         quantities.clear();
 
@@ -20,16 +20,28 @@ public class ViewOrder {
             try{
                 products.forEach(System.out::println);
                 System.out.println("Qual produto deseja(id): ");
-                int id_product = Integer.parseInt(input.nextLine());
-                id_products.add(id_product);
+                String id_product = input.nextLine();
+                if (id_product.isBlank()){
+                    System.out.println("Visualizando carrinho: ");
+                    viewCart(client, products);
+                    System.out.println("Deseja continuar[S/N]:");
+                    String option = input.nextLine();
+                    if (option.equals("Sim")){ //Melhorar isso
+                        continue;
+                    }
+                    break;
+                }
+
 
                 System.out.println("Quantidade: ");
-                int quantity = Integer.parseInt(input.nextLine());
-                quantities.add(quantity);
+                String quantity = input.nextLine();
+
+                id_products.add(Integer.parseInt(id_product));
+                quantities.add(Integer.parseInt(quantity));
+
 
             }catch(NumberFormatException e){
-                System.out.println("Fechando carrinho...");
-                break;
+                System.out.println("ERRO");
             }
             // id do produto não existe
         }
@@ -38,23 +50,20 @@ public class ViewOrder {
 
 
     public void viewCart(Client client, List<Product> products){
-        String name = client.getName();
+
         double total = 0;
-
-
+        System.out.println("Client: "+client.getName()+"\nItems:");
         for (int i = 0; i < id_products.size(); i++) {
-            String productName = products.get(id_products.get(i)).getName();
-            total += products.get(id_products.get(i)).getPrice();
-            System.out.printf("""
-                    Client: %s
-                    items:
-                     - %s (%dx)""", client.getName(), productName, quantities.get(i));
+
+            int id = id_products.get(i);
+            Product product = products.stream().filter(prod -> prod.getId() == id).findFirst().orElse(new Product());
+            total += product.getPrice() * quantities.get(i);
+            System.out.printf("- %s (%dx)\n", product.getName(), quantities.get(i));
         }
-        System.out.println("Total: "+total);
+        System.out.println("Total: "+ String.format("%.2f", total));
 
     }
 }
-
 //Talvez createCart e viewCart devam ser metedos complemetares,
 // um não pode ser chamado sem o outro
 
