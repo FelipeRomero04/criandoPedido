@@ -23,7 +23,7 @@ public class ServiceOrders {
 
             Order order = new Order(client_id);
             int order_id = repoOrder.saveOrder(order);
-
+            //Da pra usar no viewCart?
             orderItem.setOrder_id(order_id);
 
             repoOrder.placingOrder(orderItem);

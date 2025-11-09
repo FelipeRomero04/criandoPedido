@@ -29,13 +29,17 @@ public class ControlClient {
     public Client controlClientLogged(){
         try{
             Client clientEmail = viewClient.clientLogged();
+            System.out.println(clientEmail.getEmail());
+            if(clientEmail.getEmail().isBlank()){
+                throw new RuntimeException("Nenhum email foi informado.");
+            }
             return serviceClient.clientLogged(clientEmail);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void controlClientUpdate() throws SQLException{
+    public void controlClientUpdate(){
         try{
             List<Client> clients = serviceClient.getListClients();
             int idForUpdated = viewClient.idClientChoose(clients);
@@ -48,7 +52,7 @@ public class ControlClient {
 
     }
 
-    public void controlClientDelete() throws SQLException{
+    public void controlClientDelete(){
         try{
             List<Client> clients = serviceClient.getListClients();
             int idForDelete = 0;

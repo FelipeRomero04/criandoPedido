@@ -68,6 +68,7 @@ public class RepoOrder {
                 repoProduct.decrementStock(product.getId(), orderItem.getQuantities().get(i));
             }
 
+            System.out.println(total);
             stmtUpd.setDouble(1, total);
             stmtUpd.setInt(2, orderItem.getOrder_id());
             stmtUpd.executeUpdate();
@@ -75,6 +76,11 @@ public class RepoOrder {
         }catch(SQLException e){
             throw e;
         }
+    }
+
+
+    public void viewOrder(){
+        String query = "SELECT * FROM finalizePurchase";
     }
 
     private Timestamp toTimeStamp(LocalDateTime date){

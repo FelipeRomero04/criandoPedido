@@ -19,11 +19,11 @@ public class Main{
         ControlOrder controlOrder = new ControlOrder(conn);
 
         try {
-            Client client;
+            Client client = new Client();
             while(true){
                 menuMain();
                 System.out.println("Opção: ");
-                int option = Integer.parseInt(input.nextLine());
+                int option = Integer.parseInt(input.nextLine()); //validar isso
                 switch (option){
                     case 1 -> {
                         while(true){
@@ -42,11 +42,10 @@ public class Main{
                                     case 3 -> controlClient.controlClientUpdate();
                                     case 4 -> controlClient.controlClientDelete();
                                 }
-                            }catch (NumberFormatException e){
+                            }catch (RuntimeException e){
+                                System.out.println(e.getMessage());
                                 System.out.println("Voltando ao menu principal");
                                 break;
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e); //generalizar excessão no control
                             }
 
                         }
@@ -63,39 +62,47 @@ public class Main{
                                     case 2 -> controlProduct.productUpdate();
                                     case 3 -> controlProduct.productDelete();
                                 }
-                            } catch (NumberFormatException | SQLException e) {
+                            } catch (NumberFormatException e) {
                                 System.out.println("Voltando ao menu principal");
                                 break;
                             }
                         }
                     }
                     case 3 -> {
-                        while (true) {
-                            try {
-                                menuOrder();
-                                System.out.println("Opção: ");
-                                option = Integer.parseInt(input.nextLine());
+                        try {
+                            menuOrder();
+                            System.out.println("Opção: ");
+                            option = Integer.parseInt(input.nextLine());
 
-                                switch (option) {
-                                    case 1 -> controlOrder.startedTransaction();
-                                    //case 2 -> ver pedido
+                            switch (option) {
+                                case 1 -> {
+                                    controlOrder.startedTransaction(client);
+                                    System.exit(0);
                                 }
-                            } catch (NumberFormatException | SQLException e) {
-                                System.out.println("Voltando ao menu principal");
-                                break;
+                                //case 2 -> ver pedido
+                                //APOS a transação o loop tem que ser quebrado, pois a connection fecha
                             }
+
+                        } catch (NumberFormatException e) {
+                            System.out.println("Voltando ao menu principal");
+
+                        }catch (NullPointerException e){
+                            System.out.println("Você precisa estar Registrado ou Logado para fazer um pedido.");
 
                         }
                     }
                 }
             }
-        }catch(NullPointerException e){
+        }catch(RuntimeException e){
             e.printStackTrace();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
+
+        System.out.println("VOLTE SEMPRE!");
     }
 }
+
+//DAr erro "voce precisa estar logado para fazer um pedido"
+
 
 // Terminar de colocar os DAOs e util, etc
 // Anotar reforçar a responsabilidade de cada camada (apenas uma camada controla conexão)

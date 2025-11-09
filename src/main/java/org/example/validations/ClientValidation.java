@@ -11,9 +11,12 @@ public class ClientValidation {
     }
 
     public static String emailValid(String email){
-        if(email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z.-]+\\.[A-Za-z]{2,}$") || email.isBlank()){
+        if(email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z.-]+\\.[A-Za-z]{2,}$")
+           || email.isBlank()){
             return email;
         }
+
+
         throw new IllegalArgumentException("Campo \"email\" preenchido incorretamente. Tente novamente.");
     }
 

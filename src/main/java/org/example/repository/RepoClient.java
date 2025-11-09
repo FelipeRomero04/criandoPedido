@@ -33,20 +33,20 @@ public class RepoClient {
 
     public Client LoginUser(Client client) throws SQLException{
         String query = "SELECT * FROM clients WHERE email = ?;";
-
+        Client clientLogged = null;
         try(PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
             stmt.setString(1,client.getEmail());
             try(ResultSet rs = stmt.executeQuery()){
                 if(rs.next()){
                     System.out.println("Login feito com êxito");
-                    return new Client(rs.getInt(1),
+                    clientLogged = new Client(rs.getInt(1),
                             rs.getString("name"),
                             rs.getString("email"),
                             rs.getString("cpf"));
                 }
             }
+            return clientLogged;
         }
-        throw new IllegalArgumentException("Falha no Login. Usuário não existe.");
     }
 
 

@@ -17,22 +17,34 @@ public class ControlProduct {
         serviceProduct = new ServiceProduct(conn);
     }
 
-    public void productRegister() throws SQLException{
-        Product product = viewProduct.productData();
-        serviceProduct.saveProduct(product);
+    public void productRegister(){
+        try{
+            Product product = viewProduct.productData();
+            serviceProduct.saveProduct(product);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
-    public void productUpdate() throws SQLException {
-        List<Product> products = serviceProduct.getListProducts();
-        int product_id = viewProduct.idProductChoose(products);
-        Product productUpdate = serviceProduct.getClientById(product_id);
-        productUpdate = viewProduct.productUpdate(productUpdate);
-        serviceProduct.setUpdateProduct(productUpdate);
+    public void productUpdate(){
+        try{
+            List<Product> products = serviceProduct.getListProducts();
+            int product_id = viewProduct.idProductChoose(products);
+            Product productUpdate = serviceProduct.getClientById(product_id);
+            productUpdate = viewProduct.productUpdate(productUpdate);
+            serviceProduct.setUpdateProduct(productUpdate);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
-    public void productDelete() throws SQLException{
-        List<Product> products = serviceProduct.getListProducts();
-        int idDeleted = viewProduct.idProductChoose(products);
-        serviceProduct.productDeleted(idDeleted);
+    public void productDelete() {
+        try{
+            List<Product> products = serviceProduct.getListProducts();
+            int idDeleted = viewProduct.idProductChoose(products);
+            serviceProduct.productDeleted(idDeleted);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 }

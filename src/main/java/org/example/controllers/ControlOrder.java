@@ -36,10 +36,21 @@ public class ControlOrder {
         return viewOrder.createCart(products); //2 lists order_item
     }
 
-    public void startedTransaction() throws SQLException {
-        int client_id = clientIdOrder();
-        Order_item order = assembleCart();
-        serviceOrders.orderTransaction(client_id, order);
+
+    public void fullCart(Client client) {
+        List<Product> products = serviceProduct.getListProducts();
+        viewOrder.viewCart(client, products);
+
+    }
+
+
+    public void startedTransaction(Client client){
+        try{
+            Order_item order = assembleCart();
+            serviceOrders.orderTransaction(client.getId(), order);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 }
 
