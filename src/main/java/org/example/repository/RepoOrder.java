@@ -69,6 +69,9 @@ public class RepoOrder {
             }
 
             System.out.println(total);
+            if(total == 0){
+
+            }
             stmtUpd.setDouble(1, total);
             stmtUpd.setInt(2, orderItem.getOrder_id());
             stmtUpd.executeUpdate();
@@ -79,8 +82,8 @@ public class RepoOrder {
     }
 
 
-    public void viewOrder(){
-        String query = "SELECT * FROM finalizePurchase";
+    public void DeleteOrder(){
+        String query = "DELETE FROM";
     }
 
     private Timestamp toTimeStamp(LocalDateTime date){

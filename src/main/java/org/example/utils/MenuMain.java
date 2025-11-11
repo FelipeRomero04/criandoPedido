@@ -26,8 +26,7 @@ public class MenuMain {
 
     public static void menuOrder(){
         System.out.println("""
-                1. Ir as Compras"
-                2. Ver meu carrinho"
+                1. Ir as Compras
                 """);
     }
 

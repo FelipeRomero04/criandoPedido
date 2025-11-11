@@ -5,7 +5,7 @@ import org.example.entitys.Client;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.example.validations.ClientValidation.*;
+import static org.example.validations.inputValidations.*;
 
 public class ViewClient {
     private final Scanner input = new Scanner(System.in);

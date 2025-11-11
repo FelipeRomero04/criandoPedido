@@ -21,7 +21,7 @@ public class ControlClient {
             Client client = viewClient.clientData();
             return serviceClient.serviceSaveClient(client);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro no registro. Verifique controlClient");
         }
 
     }
@@ -29,13 +29,13 @@ public class ControlClient {
     public Client controlClientLogged(){
         try{
             Client clientEmail = viewClient.clientLogged();
-            System.out.println(clientEmail.getEmail());
+
             if(clientEmail.getEmail().isBlank()){
                 throw new RuntimeException("Nenhum email foi informado.");
             }
             return serviceClient.clientLogged(clientEmail);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro no Login. Verifique controlClient.");
         }
     }
 
@@ -46,8 +46,8 @@ public class ControlClient {
             Client clientUpdate = serviceClient.getClientById(idForUpdated);
             clientUpdate = viewClient.clientUpdate(clientUpdate);
             serviceClient.setClientUpdate(clientUpdate);
-        }catch (SQLException e){
-            throw new RuntimeException(e);
+        }catch (SQLException | RuntimeException e){
+            throw new RuntimeException("Nenhum cliente foi atualizado.");
         }
 
     }
@@ -56,12 +56,13 @@ public class ControlClient {
         try{
             List<Client> clients = serviceClient.getListClients();
             int idForDelete = 0;
-            if (clients.isEmpty()) {
+            if (!clients.isEmpty()) {
                 idForDelete = viewClient.idClientChoose(clients);
             }
             serviceClient.clientDeleted(idForDelete);
-        }catch(SQLException e){
-            throw new RuntimeException(e);
+        }catch(SQLException | RuntimeException e){
+
+            throw new RuntimeException("Nenhum cliente foi deletado.");
         }
     }
 }

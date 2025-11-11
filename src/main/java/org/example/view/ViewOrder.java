@@ -41,7 +41,7 @@ public class ViewOrder {
 
 
             }catch(NumberFormatException e){
-                System.out.println("ERRO");
+                System.out.println("Quantidade não foi inserida corretamente");
             }
             // id do produto não existe
         }
@@ -60,7 +60,7 @@ public class ViewOrder {
             total += product.getPrice() * quantities.get(i);
             System.out.printf("- %s (%dx)\n", product.getName(), quantities.get(i));
         }
-        System.out.println("Total: "+ String.format("%.2f", total));
+        System.out.println("Total: R$"+ String.format("%.2f", total));
 
     }
 }

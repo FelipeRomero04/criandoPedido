@@ -21,8 +21,9 @@ public class ControlProduct {
         try{
             Product product = viewProduct.productData();
             serviceProduct.saveProduct(product);
+            //Quero dar um jeito de lançar uma excessão caso de ENTER no nome do produto, sem ter que descer tanto na pilha
         }catch (SQLException e){
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro ao registrar produto. Verifique ControlProduct.");
         }
     }
 
@@ -33,8 +34,8 @@ public class ControlProduct {
             Product productUpdate = serviceProduct.getClientById(product_id);
             productUpdate = viewProduct.productUpdate(productUpdate);
             serviceProduct.setUpdateProduct(productUpdate);
-        }catch (SQLException e){
-            throw new RuntimeException(e);
+        }catch (SQLException | RuntimeException e){
+            throw new RuntimeException("Nenhum produto foi atualizado.");
         }
     }
 
@@ -43,8 +44,8 @@ public class ControlProduct {
             List<Product> products = serviceProduct.getListProducts();
             int idDeleted = viewProduct.idProductChoose(products);
             serviceProduct.productDeleted(idDeleted);
-        }catch (SQLException e){
-            throw new RuntimeException(e);
+        }catch (SQLException | RuntimeException e){
+            throw new RuntimeException("Nenhum produto foi deletado.");
         }
     }
 }

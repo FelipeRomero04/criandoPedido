@@ -24,7 +24,11 @@ public class ServiceClient {
     }
 
     public Client clientLogged(Client client) throws SQLException {
-        return repoClient.LoginUser(client);
+        Client clientDb = repoClient.LoginUser(client);
+        if(clientDb == null){
+            throw new RuntimeException("Esse usuário não foi encontrado. Selecione a opção de Registrar-se.");
+        }
+        return clientDb;
     }
 
     public List<Client> getListClients(){

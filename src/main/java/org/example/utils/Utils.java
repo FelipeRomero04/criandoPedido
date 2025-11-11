@@ -9,12 +9,7 @@ import java.util.List;
 import static org.example.utils.Connectivity.connectionDb;
 
 public class Utils {
-    private static final Connection conn = connectionDb();
 
-//    public static Product productById(int id){
-//        List<Product> product = productDAO.selectProduct();
-//        return product.stream().filter(p -> p.getId() == id).findFirst().orElse(null);
-//    }
 
     public static void printTableProducts(List<Product> products){
         if(products.isEmpty()){

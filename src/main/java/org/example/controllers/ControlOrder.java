@@ -39,6 +39,10 @@ public class ControlOrder {
     public void startedTransaction(Client client){
         try{
             Order_item order = assembleCart(client);
+            if(order.getProducts_id().isEmpty()){
+                throw new RuntimeException("O carrinho está vazio. Retornando ao Menu...");
+            }
+
             serviceOrders.orderTransaction(client.getId(), order);
         }catch (SQLException e){
             throw new RuntimeException(e);

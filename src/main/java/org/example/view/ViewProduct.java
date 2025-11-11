@@ -5,8 +5,8 @@ import org.example.entitys.Product;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.example.validations.ClientValidation.*;
-import static org.example.validations.ProductValidation.*;
+import static org.example.validations.inputValidations.*;
+
 
 public class ViewProduct {
     private final Scanner input = new Scanner(System.in);

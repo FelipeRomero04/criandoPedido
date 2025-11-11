@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import static org.example.utils.Connectivity.connectionDb;
 import static org.example.utils.MenuMain.*;
+import static org.example.validations.inputValidations.inputValid;
 
 public class Main{
     public static void main(String[] args){
@@ -18,86 +19,73 @@ public class Main{
         ControlProduct controlProduct = new ControlProduct(conn);
         ControlOrder controlOrder = new ControlOrder(conn);
 
-        try {
-            Client client = new Client();
-            while(true){
+        Client client = new Client();
+        String optionCase;
+        while(true){
+            try{
                 menuMain();
                 System.out.println("Opção: ");
-                int option = Integer.parseInt(input.nextLine()); //validar isso
-                switch (option){
-                    case 1 -> {
-                        while(true){
-                            try{
-                                menuClients();
-                                System.out.println("Opção: ");
-                                option = Integer.parseInt(input.nextLine());
-
-                                switch (option) {
-                                    case 1 ->{
-                                        client = controlClient.controlClientRegister();
-                                    }
-                                    case 2 -> {
-                                        client = controlClient.controlClientLogged();
-                                    }
-                                    case 3 -> controlClient.controlClientUpdate();
-                                    case 4 -> controlClient.controlClientDelete();
-                                }
-                            }catch (RuntimeException e){
-                                System.out.println(e.getMessage());
-                                System.out.println("Voltando ao menu principal");
-                                break;
-                            }
-
-                        }
-                    }
-                    case 2 -> {
-                        while (true) {
-                            try {
-                                menuProduct();
-                                System.out.println("Opção: ");
-                                option = Integer.parseInt(input.nextLine());
-
-                                switch (option) {
-                                    case 1 -> controlProduct.productRegister();
-                                    case 2 -> controlProduct.productUpdate();
-                                    case 3 -> controlProduct.productDelete();
-                                }
-                            } catch (NumberFormatException e) {
-                                System.out.println("Voltando ao menu principal");
-                                break;
-                            }
-                        }
-                    }
-                    case 3 -> {
-                        try {
-                            menuOrder();
+                String option = inputValid(input.nextLine());
+                 //validar isso
+                switch (option) {
+                    case "1" -> {
+                        do {
+                            menuClients();
                             System.out.println("Opção: ");
-                            option = Integer.parseInt(input.nextLine());
+                            optionCase = inputValid(input.nextLine());
 
-                            switch (option) {
-                                case 1 -> {
-                                    controlOrder.startedTransaction(client);
-                                    System.exit(0);
-                                }
-                                //case 2 -> ver pedido
-                                //APOS a transação o loop tem que ser quebrado, pois a connection fecha
+                            switch (optionCase) {
+                                case "1" -> client = controlClient.controlClientRegister();
+
+                                case "2" -> client = controlClient.controlClientLogged();
+
+                                case "3" -> controlClient.controlClientUpdate();
+
+                                case "4" -> controlClient.controlClientDelete();
                             }
 
-                        } catch (NumberFormatException e) {
-                            System.out.println("Voltando ao menu principal");
+                        }while (!optionCase.isBlank());
+                    }
+                    case "2" -> {
+                        do {
+                            menuProduct();
+                            System.out.println("Opção: ");
+                            optionCase = inputValid(input.nextLine());
 
-                        }catch (NullPointerException e){
-                            System.out.println("Você precisa estar Registrado ou Logado para fazer um pedido.");
+                            switch (optionCase) {
+                                case "1" -> controlProduct.productRegister();
+                                case "2" -> controlProduct.productUpdate();
+                                case "3" -> controlProduct.productDelete();
+                            }
 
+                        } while(!optionCase.isBlank());
+                    }
+                    case "3" -> {
+                        menuOrder();
+                        System.out.println("Opção: ");
+                        optionCase = inputValid(input.nextLine());
+
+                        if (optionCase.equals("1")) {
+                            controlOrder.startedTransaction(client);
+                            return;
                         }
                     }
-                }
-            }
-        }catch(RuntimeException e){
-            e.printStackTrace();
-        }
+                    default -> System.out.println("Não existe essa opção no Menu no momento.");
 
+                }
+
+                if(option.isBlank()){
+                    break;
+                }
+
+            }catch(RuntimeException e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+                System.out.println("Voltando ao Menu...");
+            }
+        }
         System.out.println("VOLTE SEMPRE!");
+
     }
 }
 
@@ -116,3 +104,5 @@ public class Main{
 // 1.Clientes -> cadastrar, logar, atualizar dados do clinte, deletar
 // 2.Pedidos -> cadastrar produto, atualizar dados do produto, deletar
 // 3.Pedido -> Ir as compras, ver carrinho
+
+//Erro quando o id do produto não existe
