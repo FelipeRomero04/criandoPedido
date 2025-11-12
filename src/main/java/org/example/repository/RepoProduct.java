@@ -1,6 +1,5 @@
 package org.example.repository;
 
-import org.example.entitys.Client;
 import org.example.entitys.Product;
 
 import java.sql.Connection;
@@ -17,7 +16,6 @@ public class RepoProduct {
         this.conn = conn;
     }
 
-
     public void createProduct(Product product) throws SQLException  {
         String query = "INSERT INTO product(name, price, stock) VALUES (?, ?, ?)";
         try(PreparedStatement stmt = conn.prepareStatement(query)){
@@ -27,14 +25,10 @@ public class RepoProduct {
 
             stmt.executeUpdate();
             System.out.println("Produto inserido com sucesso.");
-        }catch (SQLException e){
-            //System.out.println("FALHA ao salvar produto no banco de dados." );
-            throw e;
         }
-
     }
 
-    public List<Product> findAll(){
+    public List<Product> findAll() throws SQLException{
         String query = "SELECT * FROM product ORDER by id";
         List<Product> products = new ArrayList<>();
         try(PreparedStatement stmt = conn.prepareStatement(query);
@@ -48,8 +42,6 @@ public class RepoProduct {
                         rs.getInt("stock")
                 ));
             }
-        }catch (SQLException e){
-            e.printStackTrace();
         }
 
         return products;
@@ -110,24 +102,6 @@ public class RepoProduct {
 
             stmt.executeUpdate();
         }
-    }
-
-
-
-    public boolean isExist(int id) {
-        String query = "SELECT COUNT(id) FROM product WHERE id = ?;";
-
-        try(PreparedStatement stmt = conn.prepareStatement(query)){
-            stmt.setInt(1, id);
-            try(ResultSet rs = stmt.executeQuery(query)) {
-                if (rs.next()) {
-                    return rs.getInt("id") > 0;
-                }
-            }
-        }catch (SQLException e){
-            System.err.println("Esse produto não existe.");
-        }
-        return false;
     }
 
 }

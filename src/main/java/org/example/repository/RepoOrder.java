@@ -31,8 +31,6 @@ public class RepoOrder {
             rs.next();
             order_id = rs.getInt(1);
 
-        }catch (SQLException e){
-            throw e;
         }
         return order_id;
     }
@@ -40,19 +38,17 @@ public class RepoOrder {
     public void placingOrder(Order_item orderItem) throws SQLException {
         String insertQuery = "INSERT INTO order_item(order_id, product_id, quantity) VALUES (?,?,?);";
 
-        try (PreparedStatement stmtInsrt = conn.prepareStatement(insertQuery)) {
+        try (PreparedStatement stmt = conn.prepareStatement(insertQuery)) {
             for (int i = 0; i < orderItem.getProducts_id().size(); i++) {
-                stmtInsrt.setInt(1, orderItem.getOrder_id());
-                stmtInsrt.setInt(2, orderItem.getProducts_id().get(i));
-                stmtInsrt.setDouble(3, orderItem.getQuantities().get(i));
+                stmt.setInt(1, orderItem.getOrder_id());
+                stmt.setInt(2, orderItem.getProducts_id().get(i));
+                stmt.setDouble(3, orderItem.getQuantities().get(i));
 
-                stmtInsrt.addBatch(); //guarda em lotes
+                stmt.addBatch(); //guarda em lotes
             }
-            stmtInsrt.executeBatch(); //executa tudo
+            stmt.executeBatch(); //executa tudo
 
-            System.out.println("FEITO");
-        } catch (SQLException e) {
-            throw e;
+            System.out.println("Pedido concluído");
         }
     }
 
@@ -68,28 +64,18 @@ public class RepoOrder {
                 repoProduct.decrementStock(product.getId(), orderItem.getQuantities().get(i));
             }
 
-            System.out.println(total);
-            if(total == 0){
-
-            }
             stmtUpd.setDouble(1, total);
             stmtUpd.setInt(2, orderItem.getOrder_id());
             stmtUpd.executeUpdate();
 
-        }catch(SQLException e){
-            throw e;
         }
-    }
-
-
-    public void DeleteOrder(){
-        String query = "DELETE FROM";
     }
 
     private Timestamp toTimeStamp(LocalDateTime date){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
         return Timestamp.valueOf(date.format(format));
 
-    }//tirar isso daqui
+    }
+
 
 }

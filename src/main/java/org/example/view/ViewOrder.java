@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class ViewOrder {
     private final Scanner input = new Scanner(System.in);
     private final List<Integer> id_products = new ArrayList<>();
@@ -25,8 +26,8 @@ public class ViewOrder {
                     System.out.println("Visualizando carrinho: ");
                     viewCart(client, products);
                     System.out.println("Deseja continuar[S/N]:");
-                    String option = input.nextLine();
-                    if (option.equals("Sim")){ //Melhorar isso
+                    String option = input.nextLine().trim().toLowerCase();
+                    if (option.equals("sim") || option.equals("s")){
                         continue;
                     }
                     break;
@@ -43,7 +44,7 @@ public class ViewOrder {
             }catch(NumberFormatException e){
                 System.out.println("Quantidade não foi inserida corretamente");
             }
-            // id do produto não existe
+
         }
         return new Order_item(id_products,quantities);
     }
@@ -64,8 +65,3 @@ public class ViewOrder {
 
     }
 }
-//Talvez createCart e viewCart devam ser metedos complemetares,
-// um não pode ser chamado sem o outro
-
-//Vou confirma a transação em ver o carrinho, dessa forma vai ser possivel adicionar
-//mais coisas depois

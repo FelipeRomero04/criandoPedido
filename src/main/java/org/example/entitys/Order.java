@@ -1,6 +1,5 @@
 package org.example.entitys;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 

@@ -4,7 +4,7 @@ import org.example.controllers.ControlProduct;
 import org.example.entitys.Client;
 
 import java.sql.Connection;
-import java.sql.SQLException;
+
 import java.util.Scanner;
 
 import static org.example.utils.Connectivity.connectionDb;
@@ -24,14 +24,14 @@ public class Main{
         while(true){
             try{
                 menuMain();
-                System.out.println("Opção: ");
+                System.out.print("Opção: ");
                 String option = inputValid(input.nextLine());
-                 //validar isso
+
                 switch (option) {
                     case "1" -> {
                         do {
                             menuClients();
-                            System.out.println("Opção: ");
+                            System.out.print("Opção: ");
                             optionCase = inputValid(input.nextLine());
 
                             switch (optionCase) {
@@ -49,7 +49,7 @@ public class Main{
                     case "2" -> {
                         do {
                             menuProduct();
-                            System.out.println("Opção: ");
+                            System.out.print("Opção: ");
                             optionCase = inputValid(input.nextLine());
 
                             switch (optionCase) {
@@ -62,7 +62,7 @@ public class Main{
                     }
                     case "3" -> {
                         menuOrder();
-                        System.out.println("Opção: ");
+                        System.out.print("Opção: ");
                         optionCase = inputValid(input.nextLine());
 
                         if (optionCase.equals("1")) {
@@ -70,8 +70,7 @@ public class Main{
                             return;
                         }
                     }
-                    default -> System.out.println("Não existe essa opção no Menu no momento.");
-
+                    default -> System.out.println("Nenhuma opção do menu foi selecionada.");
                 }
 
                 if(option.isBlank()){
@@ -80,29 +79,9 @@ public class Main{
 
             }catch(RuntimeException e) {
                 System.out.println(e.getMessage());
-                e.printStackTrace();
                 System.out.println("Voltando ao Menu...");
             }
         }
         System.out.println("VOLTE SEMPRE!");
-
     }
 }
-
-//DAr erro "voce precisa estar logado para fazer um pedido"
-
-
-// Terminar de colocar os DAOs e util, etc
-// Anotar reforçar a responsabilidade de cada camada (apenas uma camada controla conexão)
-// Fazer commit sempre que achar que vai estragar tudo
-// Ficar atento com acoplamento
-// Injetar pelo construtor, permite eu usar a classe livremente. (como?)
-
-
-
-
-// 1.Clientes -> cadastrar, logar, atualizar dados do clinte, deletar
-// 2.Pedidos -> cadastrar produto, atualizar dados do produto, deletar
-// 3.Pedido -> Ir as compras, ver carrinho
-
-//Erro quando o id do produto não existe

@@ -30,7 +30,7 @@ public class ServiceProduct {
         repoProduct.deleteProduct(id);
     }
 
-    public List<Product> getListProducts(){
+    public List<Product> getListProducts() throws SQLException{
         return repoProduct.findAll();
     }
 

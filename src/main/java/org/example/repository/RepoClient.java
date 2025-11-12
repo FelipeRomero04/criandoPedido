@@ -13,7 +13,7 @@ public class RepoClient {
         this.conn = conn;
     }
 
-    public void saveClient(Client client){
+    public void saveClient(Client client) throws SQLException{
         String query = "INSERT INTO clients(name, email, cpf) VALUES (?, ?, ?);";
 
         try(PreparedStatement stmt = conn.prepareStatement(query)){
@@ -23,8 +23,7 @@ public class RepoClient {
 
             stmt.executeUpdate();
         }catch(SQLException e){
-            //throw new RuntimeException("FALHA: Ao cadastrar cliente. Verifique query/conexão.");
-            e.printStackTrace();
+            throw new SQLException("FALHA: Ao cadastrar cliente. Verifique query/conexão.");
         }
 
         System.out.println("Cliente cadastrado com sucesso.");
@@ -49,9 +48,7 @@ public class RepoClient {
         }
     }
 
-
-
-    public List<Client> findAll(){
+    public List<Client> findAll() throws SQLException{
         String query = "SELECT * FROM clients ORDER BY id;";
         List<Client> clients = new ArrayList<>();
 
@@ -69,7 +66,7 @@ public class RepoClient {
             return clients;
 
         }catch (SQLException e){
-            throw new RuntimeException("FALHA: Ao retornar clientes. Verifique query/conexão ");
+            throw new SQLException("FALHA: Ao retornar clientes. Verifique query/conexão ");
         }
     }
 
@@ -118,7 +115,7 @@ public class RepoClient {
     }
 
 
-    public boolean isExist(String email){
+    public boolean isExist(String email) throws SQLException{
         String query = "SELECT COUNT(*) FROM clients WHERE email = ?;";
 
         try(PreparedStatement stmt = conn.prepareStatement(query)){
@@ -128,31 +125,8 @@ public class RepoClient {
                     return rs.getInt("count") > 0;
                 }
             }
-        }catch(SQLException e){
-            e.printStackTrace();
         }
         return false;
     }
-
-
-
-
-    public boolean isExistById(int id) throws SQLException{
-        String query = "SELECT COUNT(*) FROM clients WHERE id = ?;";
-
-        try(PreparedStatement stmt = conn.prepareStatement(query)){
-            stmt.setInt(1, id);
-            try(ResultSet rs = stmt.executeQuery()){
-                if(rs.next()){
-                    return rs.getInt("id") > 0;
-                }
-            }
-        }
-        return false;
-    } //Ver pro que esta sendo usado
-
-
-
-
 
 }

@@ -1,23 +1,25 @@
 package org.example.validations;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-
 public class inputValidations {
 
     public static String clientNameValid(String name){
-        if(name.matches("^[\\p{L} ]+$") || name.isBlank()){
+        if(name.matches("^[\\p{L} ]+$")){
             return name;
+        }
+        if(name.isBlank()){
+            throw new NullPointerException("O Nome do Cliente não foi informado.");
         }
         throw new IllegalArgumentException("Campo \"nome\" preenchido incorretamente. Tente novamente.");
 
     }
 
     public static String emailValid(String email){
-        if(email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z.-]+\\.[A-Za-z]{2,}$")
-           || email.isBlank()){
+        if(email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z.-]+\\.[A-Za-z]{2,}$")){
             return email;
         }
-
+        if(email.isBlank()){
+            throw new NullPointerException("Email do cliente não foi informado.");
+        }
 
         throw new IllegalArgumentException("Campo \"email\" preenchido incorretamente. Tente novamente.");
     }
@@ -60,9 +62,13 @@ public class inputValidations {
     }
 
     public static String productValidName(String name){
-        if (name.matches("^[0-9]{0,3}[\\p{L} ]+[0-9]{0,3}$") || name.isBlank()){
+        if (name.matches("^[0-9]{0,3}[\\p{L} ]+[0-9]{0,3}$")){
             return name;
         }
+        if(name.isBlank()){
+            throw new RuntimeException("Nenhum nome foi informado.");
+        }
+
         throw new IllegalArgumentException("O nome informado é inválido. Reformule e tente novamente.");
 
     }
@@ -70,7 +76,7 @@ public class inputValidations {
     public static double priceProductValid(String price){
         try{
             if(price.isBlank()){
-                return -1;
+                throw new NullPointerException("Nenhum preço foi informado.");
             }
             return Double.parseDouble(price);
         }catch (NumberFormatException e){
@@ -81,7 +87,7 @@ public class inputValidations {
     public static int stockProductValid(String stock){
         try{
             if(stock.isBlank()){
-                return -1;
+                throw new NullPointerException("Nenhum valor de Estoque foi informado.");
             }
             return Integer.parseInt(stock);
         }catch (NumberFormatException e){

@@ -5,7 +5,7 @@ import org.example.entitys.Order_item;
 import org.example.repository.RepoOrder;
 
 import java.sql.*;
-import java.util.List;
+
 
 
 public class ServiceOrders {
@@ -23,7 +23,7 @@ public class ServiceOrders {
 
             Order order = new Order(client_id);
             int order_id = repoOrder.saveOrder(order);
-            //Da pra usar no viewCart?
+
             orderItem.setOrder_id(order_id);
 
             repoOrder.placingOrder(orderItem);
@@ -31,10 +31,13 @@ public class ServiceOrders {
 
             conn.commit();
         } catch (NullPointerException e) {
-            if (conn != null) conn.rollback();
-            e.printStackTrace();
+            conn.rollback(); // a conexão precisa continuar estabelecida para dar Rollback
+            throw e;
+
+        }finally {
+            if (conn != null) conn.close();
         }
-        if (conn != null) conn.close();
+
     }
 
 }

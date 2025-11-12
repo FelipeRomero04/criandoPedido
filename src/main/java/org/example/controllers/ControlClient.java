@@ -29,10 +29,6 @@ public class ControlClient {
     public Client controlClientLogged(){
         try{
             Client clientEmail = viewClient.clientLogged();
-
-            if(clientEmail.getEmail().isBlank()){
-                throw new RuntimeException("Nenhum email foi informado.");
-            }
             return serviceClient.clientLogged(clientEmail);
         } catch (SQLException e) {
             throw new RuntimeException("Erro no Login. Verifique controlClient.");
@@ -41,15 +37,19 @@ public class ControlClient {
 
     public void controlClientUpdate(){
         try{
-            List<Client> clients = serviceClient.getListClients();
-            int idForUpdated = viewClient.idClientChoose(clients);
-            Client clientUpdate = serviceClient.getClientById(idForUpdated);
+            Client clientUpdate = getOldClient();
             clientUpdate = viewClient.clientUpdate(clientUpdate);
             serviceClient.setClientUpdate(clientUpdate);
-        }catch (SQLException | RuntimeException e){
+        }catch (SQLException e){
             throw new RuntimeException("Nenhum cliente foi atualizado.");
         }
 
+    }
+
+    private Client getOldClient() throws SQLException{
+        List<Client> clients = serviceClient.getListClients();
+        int idForUpdated = viewClient.idClientChoose(clients);
+        return serviceClient.getClientById(idForUpdated);
     }
 
     public void controlClientDelete(){
@@ -60,7 +60,7 @@ public class ControlClient {
                 idForDelete = viewClient.idClientChoose(clients);
             }
             serviceClient.clientDeleted(idForDelete);
-        }catch(SQLException | RuntimeException e){
+        }catch(SQLException e){
 
             throw new RuntimeException("Nenhum cliente foi deletado.");
         }

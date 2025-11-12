@@ -31,7 +31,7 @@ public class ServiceClient {
         return clientDb;
     }
 
-    public List<Client> getListClients(){
+    public List<Client> getListClients() throws SQLException{
         return repoClient.findAll();
     }
 
